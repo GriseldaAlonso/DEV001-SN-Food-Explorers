@@ -10,7 +10,7 @@ export const Login = (onNavigate) => {
   // input y label para correo electrónico
   const labelEmail = document.createElement('label');
   labelEmail.setAttribute('for', 'inputEmail');
-  labelEmail.textContent = 'Ingresa tu dirección de correo electrónico';
+  labelEmail.textContent = 'Correo electrónico';
   const inputEmail = document.createElement('input');
   inputEmail.setAttribute('type', 'email');
   inputEmail.setAttribute('id', 'inputEmail');
@@ -19,7 +19,7 @@ export const Login = (onNavigate) => {
   // input y label para contraseña
   const labelPassword = document.createElement('label');
   labelPassword.setAttribute('for', 'inputPassword');
-  labelPassword.textContent = 'Ingresa tu contraseña';
+  labelPassword.textContent = 'Contraseña';
   const inputPassword = document.createElement('input');
   inputPassword.setAttribute('type', 'password');
   inputPassword.setAttribute('id', 'inputPassword');
@@ -57,7 +57,7 @@ export const Login = (onNavigate) => {
 
   //  boton para iniciar sesión con google
   const btnGoogle = document.createElement('button');
-  btnGoogle.textContent = 'Inicia sesión con ';
+  btnGoogle.textContent = 'o inicia sesión con ';
   btnGoogle.id = 'btnGoogle';
   const imgGoogle = document.createElement('img');
   imgGoogle.src = './lib/assets/images/google.png';

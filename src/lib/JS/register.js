@@ -5,7 +5,7 @@ export const Register = (onNavigate) => {
 
   // formulario de inicio de sesión
   const form = document.createElement('form');
-  form.id = 'RegisterForm';
+  form.id = 'registerForm';
 
   // input y label para nombre de usuario
   const labelNameUser = document.createElement('label');
