@@ -1,3 +1,5 @@
+import { signInEmail, signInGoogle } from './index.js';
+
 export const Login = (onNavigate) => {
   // contenedor de la página de bienvenida
   const container = document.createElement('main');
@@ -48,7 +50,6 @@ export const Login = (onNavigate) => {
   const btnLogin = document.createElement('button');
   btnLogin.textContent = 'Entrar';
   btnLogin.className = 'btns';
-  btnLogin.type = 'submit';
 
   // boton de volver
   const btnBack = document.createElement('button');
@@ -79,7 +80,26 @@ export const Login = (onNavigate) => {
   );
   btnGoogle.append(imgGoogle);
 
-  btnLogin.addEventListener('click', () => {
+  btnLogin.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = inputEmail.value;
+    const password = inputPassword.value;
+    const result = await signInEmail(email, password);
+    if (result === 'auth/user-not-found') {
+      errorMessageLogin.innerHTML = 'Dirección Email no encontrada, por favor regístrese';
+    } else if (result === 'auth/wrong-password') {
+      errorMessageLogin.innerHTML = 'Contraseña incorrecta';
+    } else if (result === 'auth/invalid-email') {
+      errorMessageLogin.innerHTML = 'Dirección de Email invalida';
+    } else if (typeof result === 'object') {
+      form.reset();
+      onNavigate('/wall');
+    }
+  });
+
+  btnGoogle.addEventListener('click', (e) => {
+    e.preventDefault();
+    signInGoogle();
     onNavigate('/wall');
   });
 
