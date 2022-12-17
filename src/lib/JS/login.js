@@ -97,10 +97,14 @@ export const Login = (onNavigate) => {
     }
   });
 
-  btnGoogle.addEventListener('click', (e) => {
+  btnGoogle.addEventListener('click', async (e) => {
     e.preventDefault();
-    signInGoogle();
-    onNavigate('/wall');
+    const result = await signInGoogle();
+    if (typeof result === 'object') {
+      onNavigate('/wall');
+    } else {
+      errorMessageLogin.innerHTML = 'Error de inicio de sesión. Intenta de nuevo más tarde';
+    }
   });
 
   btnBack.addEventListener('click', () => {

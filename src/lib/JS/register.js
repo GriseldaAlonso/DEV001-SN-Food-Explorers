@@ -1,3 +1,5 @@
+import { createWithEmail } from './index.js';
+
 export const Register = (onNavigate) => {
   // contenedor de la página de bienvenida
   const container = document.createElement('main');
@@ -57,7 +59,6 @@ export const Register = (onNavigate) => {
   const btnRegister = document.createElement('button');
   btnRegister.textContent = 'Crear cuenta';
   btnRegister.className = 'btns';
-  btnRegister.type = 'submit';
 
   // boton de volver
   const btnBack = document.createElement('button');
@@ -79,8 +80,22 @@ export const Register = (onNavigate) => {
     divBtnsRegister,
   );
 
-  btnRegister.addEventListener('click', () => {
-    onNavigate('/wall');
+  btnRegister.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const nameUser = inputNameUser.value;
+    const email = inputEmail.value;
+    const password = inputPassword.value;
+    const result = await createWithEmail(email, password, nameUser);
+    if (result === 'auth/invalid-email') {
+      errorMessageRegister.innerHTML = 'El correo que ingresaste es inválido';
+    } else if (result === 'auth/email-already-in-use') {
+      errorMessageRegister.innerHTML = 'Éste correo ya está registrado';
+    } else if (result === 'auth/weak-password') {
+      errorMessageRegister.innerHTML = 'Revisa los datos ingresados, algo está mal en tu registro';
+    } else if (typeof result === 'object') {
+      form.reset();
+      onNavigate('/wall');
+    }
   });
 
   btnBack.addEventListener('click', () => {
