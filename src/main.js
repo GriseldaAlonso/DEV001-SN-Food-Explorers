@@ -1,12 +1,10 @@
 // Este es el punto de entrada de tu aplicacion
-
-import { myFunction } from './lib/JS/index.js';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './lib/JS/firebase.js';
 import { Login } from './lib/JS/login.js';
 import { Register } from './lib/JS/register.js';
 import { Wall } from './lib/JS/wall.js';
 import { Welcome } from './lib/JS/welcome.js';
-
-myFunction();
 
 const root = document.getElementById('root');
 
@@ -37,3 +35,11 @@ window.onpopstate = () => {
 };
 
 root.appendChild(components());
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    onNavigate('/wall');
+  } else {
+    onNavigate('/');
+  }
+});
