@@ -6,10 +6,10 @@ import { auth, provider } from './firebase.js';
 
 // aqui exportaras las funciones que necesites
 
-export const myFunction = () => {
-  // aqui tu codigo
-  console.log('Hola mundo!');
-};
+// export const myFunction = () => {
+// aqui tu codigo
+//  console.log('Hola mundo!');
+// };
 
 // función que crea el usuario con email y password
 export const createWithEmail = async (email, password) => {
@@ -46,8 +46,7 @@ export const signInGoogle = async () => {
 
 export const logOut = async () => {
   try {
-    const logOutMessage = await signOut(auth);
-    return logOutMessage;
+    await signOut(auth);
   } catch (error) {
     const errorCode = error.code;
     return errorCode;
