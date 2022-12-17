@@ -1,5 +1,7 @@
 /* eslint-disable consistent-return */
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut,
+} from 'firebase/auth';
 import { auth, provider } from './firebase.js';
 
 // aqui exportaras las funciones que necesites
@@ -36,6 +38,16 @@ export const signInGoogle = async () => {
   try {
     const credentials = await signInWithPopup(auth, provider);
     return credentials;
+  } catch (error) {
+    const errorCode = error.code;
+    return errorCode;
+  }
+};
+
+export const logOut = async () => {
+  try {
+    const logOutMessage = await signOut(auth);
+    return logOutMessage;
   } catch (error) {
     const errorCode = error.code;
     return errorCode;

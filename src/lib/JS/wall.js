@@ -1,3 +1,5 @@
+import { logOut } from './index.js';
+
 export const Wall = (onNavigate) => {
   // contenedor de la página de bienvenida
   const container = document.createElement('div');
@@ -52,8 +54,11 @@ export const Wall = (onNavigate) => {
   main.append(form, ul);
   container.append(header, main);
 
-  btnLogOut.addEventListener('click', () => {
-    onNavigate('/');
+  btnLogOut.addEventListener('click', async () => {
+    const result = logOut();
+    if (result === 'null') {
+      onNavigate('/');
+    }
   });
 
   return container;
