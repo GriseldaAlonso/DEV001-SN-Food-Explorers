@@ -10,7 +10,6 @@ export const myFunction = () => {
 };
 
 // función que crea el usuario con email y password
-
 export const createWithEmail = async (email, password) => {
   try {
     const credentials = await createUserWithEmailAndPassword(auth, email, password);
@@ -22,7 +21,6 @@ export const createWithEmail = async (email, password) => {
 };
 
 // función que permite acceder a la cuenta con email y password
-
 export const signInEmail = async (email, password) => {
   try {
     const credentials = await signInWithEmailAndPassword(auth, email, password);
@@ -34,13 +32,12 @@ export const signInEmail = async (email, password) => {
 };
 
 // Iniciar sesión con google
-
 export const signInGoogle = async () => {
   try {
-    await signInWithPopup(auth, provider);
-    // console.log(credentials.user);
+    const credentials = await signInWithPopup(auth, provider);
+    return credentials;
   } catch (error) {
     const errorCode = error.code;
-    console.log(errorCode);
+    return errorCode;
   }
 };
