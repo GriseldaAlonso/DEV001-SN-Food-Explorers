@@ -1,5 +1,6 @@
 import { logOut, savePost } from './index.js';
 import { auth } from './firebase.js';
+import { async } from 'regenerator-runtime';
 
 export const Wall = (onNavigate) => {
   // contenedor de la página de bienvenida
@@ -56,7 +57,7 @@ export const Wall = (onNavigate) => {
   main.append(form, ul);
   container.append(header, main);
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
     const userId = user.uid;
@@ -64,7 +65,8 @@ export const Wall = (onNavigate) => {
     const postContent = form.content.value;
     const currentDate = new Date();
     if (postContent !== '') {
-      savePost(postContent, currentDate, userId, userNameValue);
+      await savePost(postContent, currentDate, userId, userNameValue);
+      form.reset();
     } else {
       errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
     }
