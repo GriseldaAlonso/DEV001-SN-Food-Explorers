@@ -20,7 +20,6 @@ describe('createWithEmail', () => {
   it('Ejecuta createUserWithEmailAndPassword()', () => {
     const email = 'carol@gmail.com';
     const password = 'carol123';
-
     createWithEmail(email, password);
     expect(createUserWithEmailAndPassword).toHaveBeenCalled();
   });
@@ -33,7 +32,6 @@ describe('signInEmail', () => {
   it('Ejecuta sigInWithEmailAndPassword()', () => {
     const email = 'fulanita@gmail.com';
     const password = 'fulanita123';
-
     signInEmail(email, password);
     expect(signInWithEmailAndPassword).toHaveBeenCalled();
   });

@@ -37,9 +37,11 @@ window.onpopstate = () => {
 root.appendChild(components());
 
 onAuthStateChanged(auth, (user) => {
+  const uid = user.uid;
   if (user) {
     onNavigate('/wall');
   } else {
     onNavigate('/');
   }
+  return uid;
 });

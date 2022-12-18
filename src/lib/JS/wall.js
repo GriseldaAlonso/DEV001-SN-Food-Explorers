@@ -1,4 +1,5 @@
-import { logOut } from './index.js';
+import { logOut, savePost } from './index.js';
+import { auth } from './firebase.js';
 
 export const Wall = (onNavigate) => {
   // contenedor de la página de bienvenida
@@ -25,11 +26,6 @@ export const Wall = (onNavigate) => {
   btnLogOut.textContent = 'Cerrar sesión';
   btnLogOut.id = 'btnLogOut';
 
-  // texto slogan
-  const textWelcome = document.createElement('p');
-  textWelcome.textContent = 'La red social para compartir tus hallazgos del mundo culinario';
-  textWelcome.id = 'textSlogan';
-
   // main de la página
   const main = document.createElement('main');
   main.id = 'mainWall';
@@ -38,21 +34,41 @@ export const Wall = (onNavigate) => {
   const form = document.createElement('form');
   form.id = 'formWall';
   const textArea = document.createElement('textarea');
+  textArea.id = 'content';
   textArea.placeholder = 'Escribe aquí...';
   const btnSave = document.createElement('button');
   btnSave.textContent = 'Publicar';
   btnSave.type = 'submit';
   btnSave.className = 'btns';
 
+  // mensaje de error
+  const errorMessageWall = document.createElement('p');
+  errorMessageWall.id = 'errorMessageWall';
+
+
   // publicaciones del muro
   const ul = document.createElement('ul');
 
   nav.append(imgLogo, title, btnLogOut);
   header.append(nav);
-  form.append(textArea, btnSave);
+  form.append(errorMessageWall, textArea, btnSave);
 
   main.append(form, ul);
   container.append(header, main);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const user = auth.currentUser;
+    const userId = user.uid;
+    const userNameValue = user.displayName;
+    const postContent = form.content.value;
+    const currentDate = new Date();
+    if (postContent !== '') {
+      savePost(postContent, currentDate, userId, userNameValue);
+    } else {
+      errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
+    }
+  });
 
   btnLogOut.addEventListener('click', async () => {
     const result = logOut();
