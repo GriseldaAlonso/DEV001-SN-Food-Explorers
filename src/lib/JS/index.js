@@ -1,20 +1,28 @@
 /* eslint-disable consistent-return */
 import {
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from 'firebase/auth';
-import { auth, provider } from './firebase.js';
-
-// aqui exportaras las funciones que necesites
-
-// export const myFunction = () => {
-// aqui tu codigo
-//  console.log('Hola mundo!');
-// };
+import { addDoc, collection } from 'firebase/firestore';
+import { auth, provider, db } from './firebase.js';
 
 // función que crea el usuario con email y password
-export const createWithEmail = async (email, password) => {
+export const createWithEmail = async (email, password, nameUser) => {
   try {
     const credentials = await createUserWithEmailAndPassword(auth, email, password);
+    if (nameUser !== '') {
+      try {
+        await updateProfile(auth.currentUser, {
+          displayName: nameUser,
+        });
+      } catch (error) {
+        // An error occurred
+        // ...
+      }
+    }
     return credentials;
   } catch (error) {
     const errorCode = error.code;
@@ -44,9 +52,27 @@ export const signInGoogle = async () => {
   }
 };
 
+// función para cerrar sesióngh
 export const logOut = async () => {
   try {
     await signOut(auth);
+  } catch (error) {
+    const errorCode = error.code;
+    return errorCode;
+  }
+};
+
+// función para guardar publicaciones
+
+export const savePost = async (text, currentDate, userId, userNameValue) => {
+  try {
+    const docRef = await addDoc(collection(db, 'posts'), {
+      content: text,
+      date: currentDate,
+      uid: userId,
+      userName: userNameValue,
+    });
+    return docRef;
   } catch (error) {
     const errorCode = error.code;
     return errorCode;
