@@ -1,6 +1,5 @@
-import { logOut, savePost } from './index.js';
+import { logOut, savePost, loadPosts } from './index.js';
 import { auth } from './firebase.js';
-import { async } from 'regenerator-runtime';
 
 export const Wall = (onNavigate) => {
   // contenedor de la página de bienvenida
@@ -46,24 +45,24 @@ export const Wall = (onNavigate) => {
   const errorMessageWall = document.createElement('p');
   errorMessageWall.id = 'errorMessageWall';
 
-
   // publicaciones del muro
-  const ul = document.createElement('ul');
+  const postsList = document.createElement('ul');
 
   nav.append(imgLogo, title, btnLogOut);
   header.append(nav);
   form.append(errorMessageWall, textArea, btnSave);
 
-  main.append(form, ul);
+  main.append(form, postsList);
   container.append(header, main);
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const ts = new Date();
     const user = auth.currentUser;
     const userId = user.uid;
     const userNameValue = user.displayName;
     const postContent = form.content.value;
-    const currentDate = new Date();
+    const currentDate = ts.toLocaleString();
     if (postContent !== '') {
       await savePost(postContent, currentDate, userId, userNameValue);
       form.reset();
@@ -71,6 +70,24 @@ export const Wall = (onNavigate) => {
       errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
     }
   });
+
+  const showPosts = async () => {
+    const posts = await loadPosts();
+
+    posts.forEach((post) => {
+      postsList.innerHTML += `
+      <li>
+        <div id='${post.uid}'>
+          <h3>${post.userName}</h3>
+          <p class='posts'>${post.content}</p>
+          <p class='date'>${post.date}</p>
+        </div>
+      </li>
+      `;
+    });
+  };
+
+  showPosts();
 
   btnLogOut.addEventListener('click', async () => {
     const result = logOut();

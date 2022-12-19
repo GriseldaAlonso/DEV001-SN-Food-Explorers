@@ -6,7 +6,9 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import {
+  addDoc, collection, doc, onSnapshot, getDocs,
+} from 'firebase/firestore';
 import { auth, provider, db } from './firebase.js';
 
 // función que crea el usuario con email y password
@@ -77,4 +79,12 @@ export const savePost = async (text, currentDate, userId, userNameValue) => {
     const errorCode = error.code;
     return errorCode;
   }
+};
+
+// función para cargar las publicaciónes
+export const loadPosts = async () => {
+  const querySnapshot = await getDocs(collection(db, 'posts'));
+  // eslint-disable-next-line no-shadow
+  const allPosts = querySnapshot.docs.map((doc) => doc.data());
+  return allPosts;
 };
