@@ -7,7 +7,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import {
-  addDoc, collection, doc, onSnapshot, getDocs,
+  addDoc, collection, getDocs,
 } from 'firebase/firestore';
 import { auth, provider, db } from './firebase.js';
 

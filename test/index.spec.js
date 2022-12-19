@@ -5,23 +5,33 @@
 import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut,
 } from 'firebase/auth';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import {
-  createWithEmail, signInEmail, signInGoogle, logOut,
+  createWithEmail, signInEmail, signInGoogle, logOut, savePost, loadPosts,
 } from '../src/lib/JS/index';
-import { auth } from '../src/lib/JS/firebase.js';
+import { auth, db } from '../src/lib/JS/firebase.js';
 
 jest.mock('firebase/auth');
+jest.mock('firebase/firestore');
 jest.mock('../src/lib/JS/firebase.js');
 
 describe('createWithEmail', () => {
   it('debería ser  una función', () => {
     expect(typeof createWithEmail).toBe('function');
   });
-  it('Ejecuta createUserWithEmailAndPassword()', () => {
+  it('Ejecuta createUserWithEmailAndPassword()', async () => {
     const email = 'carol@gmail.com';
     const password = 'carol123';
-    createWithEmail(email, password);
+    await createWithEmail(email, password);
+    expect(email).toBe('carol@gmail.com');
+    expect(password).toBe('carol123');
     expect(createUserWithEmailAndPassword).toHaveBeenCalled();
+  });
+  it('createUserWithEmailAndPassword debería retornar error', () => {
+    createUserWithEmailAndPassword.mockRejectedValue(new Error('auth/invalid-email'));
+    createWithEmail('fulanita.gmail.com', '123456').catch((error) => {
+      expect(error.code).toBe('auth/invalid-email');
+    });
   });
 });
 
@@ -35,6 +45,12 @@ describe('signInEmail', () => {
     signInEmail(email, password);
     expect(signInWithEmailAndPassword).toHaveBeenCalled();
   });
+  it('signInWithEmailAndPassword debería retornar error', () => {
+    signInWithEmailAndPassword.mockRejectedValue(new Error('auth/invalid-email'));
+    signInEmail('fulanita.gmail.com', 'fulanita123').catch((error) => {
+      expect(error.code).toBe('auth/invalid-email');
+    });
+  });
 });
 
 describe('signInGoogle', () => {
@@ -45,6 +61,12 @@ describe('signInGoogle', () => {
     signInGoogle();
     expect(signInWithPopup).toHaveBeenCalled();
   });
+  it('signInWithPopup debería retornar error', () => {
+    signInWithPopup.mockRejectedValue(new Error('auth/invalid'));
+    signInGoogle('fulanita.gmail.com', 'fulanita123').catch((error) => {
+      expect(error.code).toBe('auth/invalid');
+    });
+  });
 });
 
 describe('logOut', () => {
@@ -54,5 +76,30 @@ describe('logOut', () => {
   it('Ejecuta signOut()', () => {
     signOut(auth);
     expect(signOut).toHaveBeenCalled();
+  });
+});
+
+describe('savePost', () => {
+  test('debería ser una función', () => {
+    expect(typeof savePost).toBe('function');
+  });
+  test('Ejecuta addDoc()', () => {
+    addDoc(collection(db, 'text'), {
+      content: 'Hola',
+      date: '18/12/2022, 19:25:49',
+      uid: 'u8C7XOB7gAfnDaGdoJqh0ryTpu23',
+      userName: 'Mengana',
+    });
+    expect(addDoc).toHaveBeenCalled();
+  });
+});
+
+describe(loadPosts, () => {
+  it('debería ser una función', () => {
+    expect(typeof loadPosts).toBe('function');
+  });
+  it('Ejecuta loadPosts()', () => {
+    getDocs(collection(db, 'texto'));
+    expect(getDocs).toHaveBeenCalled();
   });
 });
