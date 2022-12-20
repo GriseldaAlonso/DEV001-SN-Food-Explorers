@@ -1,5 +1,9 @@
-import { logOut, savePost, loadPosts } from './index.js';
+import {
+  logOut, savePost, getPosts, loadInRealTime,
+} from './index.js';
 import { auth } from './firebase.js';
+
+let unsubscribe;
 
 export const Wall = (onNavigate) => {
   // contenedor de la página de bienvenida
@@ -70,13 +74,12 @@ export const Wall = (onNavigate) => {
       errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
     }
   });
-
-  const showPosts = async () => {
-    const posts = await loadPosts();
-
+  postsList.innerHTML = '';
+  const showPosts = () => {
+    const posts = getPosts();
     posts.forEach((post) => {
       postsList.innerHTML += `
-      <li>
+      <li id=''>
         <div id='${post.uid}'>
           <h3>${post.userName}</h3>
           <p class='posts'>${post.content}</p>
@@ -87,7 +90,10 @@ export const Wall = (onNavigate) => {
     });
   };
 
-  showPosts();
+  if (!unsubscribe) {
+    loadInRealTime(showPosts);
+  }
+  unsubscribe = loadInRealTime(showPosts);
 
   btnLogOut.addEventListener('click', async () => {
     const result = logOut();

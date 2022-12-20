@@ -27,14 +27,12 @@ routes = {
   '/wall': Wall(onNavigate),
 };
 
-const components = () => routes[window.location.pathname];
-
 window.onpopstate = () => {
   root.removeChild(root.firstChild);
-  root.append(components());
+  root.append(routes[window.location.pathname]);
 };
 
-root.appendChild(components());
+root.appendChild(routes[window.location.pathname]);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {

@@ -5,9 +5,9 @@
 import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut,
 } from 'firebase/auth';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs, onSnapshot } from 'firebase/firestore';
 import {
-  createWithEmail, signInEmail, signInGoogle, logOut, savePost, loadPosts,
+  createWithEmail, signInEmail, signInGoogle, logOut, savePost, loadPosts, loadInRealTime,
 } from '../src/lib/JS/index';
 import { auth, db } from '../src/lib/JS/firebase.js';
 
@@ -94,12 +94,12 @@ describe('savePost', () => {
   });
 });
 
-describe(loadPosts, () => {
+describe('loadInRealTime', () => {
   it('debería ser una función', () => {
-    expect(typeof loadPosts).toBe('function');
+    expect(typeof loadInRealTime).toBe('function');
   });
-  it('Ejecuta loadPosts()', () => {
+  it('Ejecuta onSnapshot()', () => {
     getDocs(collection(db, 'texto'));
-    expect(getDocs).toHaveBeenCalled();
+    expect(onSnapshot).toHaveBeenCalled();
   });
 });
