@@ -7,7 +7,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import {
-  addDoc, collection, getDocs,
+  addDoc, collection, getDocs, onSnapshot, query,
 } from 'firebase/firestore';
 import { auth, provider, db } from './firebase.js';
 
@@ -59,8 +59,8 @@ export const logOut = async () => {
   try {
     await signOut(auth);
   } catch (error) {
-    const errorCode = error.code;
-    return errorCode;
+    const errorMessage = error.message;
+    return errorMessage;
   }
 };
 
@@ -73,6 +73,8 @@ export const savePost = async (text, currentDate, userId, userNameValue) => {
       date: currentDate,
       uid: userId,
       userName: userNameValue,
+      // eslint-disable-next-line no-use-before-define
+      docRef: docRef.id,
     });
     return docRef;
   } catch (error) {
@@ -87,4 +89,22 @@ export const loadPosts = async () => {
   // eslint-disable-next-line no-shadow
   const allPosts = querySnapshot.docs.map((doc) => doc.data());
   return allPosts;
+};
+
+// función para cargar los posts en tiempo real
+let posts = [];
+export const getPosts = () => posts;
+
+export const loadInRealTime = (callback) => {
+  posts = [];
+  const q = query(collection(db, 'posts'));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    console.log(querySnapshot);
+    querySnapshot.forEach((doc) => {
+      posts.push(doc.data());
+    });
+    console.log('Current posts: ', posts.join(', '));
+    callback(posts);
+  });
+  return unsubscribe;
 };
