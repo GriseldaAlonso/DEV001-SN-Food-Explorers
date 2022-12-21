@@ -7,7 +7,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import {
-  addDoc, collection, getDocs, onSnapshot, query,
+  addDoc, collection, onSnapshot,
 } from 'firebase/firestore';
 import { auth, provider, db } from './firebase.js';
 
@@ -65,6 +65,7 @@ export const logOut = async () => {
 };
 
 // función para guardar publicaciones
+const docRefSave = [];
 
 export const savePost = async (text, currentDate, userId, userNameValue) => {
   try {
@@ -73,38 +74,15 @@ export const savePost = async (text, currentDate, userId, userNameValue) => {
       date: currentDate,
       uid: userId,
       userName: userNameValue,
-      // eslint-disable-next-line no-use-before-define
-      docRef: docRef.id,
     });
+    docRefSave.push(docRef.id);
     return docRef;
   } catch (error) {
     const errorCode = error.code;
     return errorCode;
   }
 };
-
-// función para cargar las publicaciónes
-export const loadPosts = async () => {
-  const querySnapshot = await getDocs(collection(db, 'posts'));
-  // eslint-disable-next-line no-shadow
-  const allPosts = querySnapshot.docs.map((doc) => doc.data());
-  return allPosts;
-};
+console.log(docRefSave);
 
 // función para cargar los posts en tiempo real
-let posts = [];
-export const getPosts = () => posts;
-
-export const loadInRealTime = (callback) => {
-  posts = [];
-  const q = query(collection(db, 'posts'));
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    console.log(querySnapshot);
-    querySnapshot.forEach((doc) => {
-      posts.push(doc.data());
-    });
-    console.log('Current posts: ', posts.join(', '));
-    callback(posts);
-  });
-  return unsubscribe;
-};
+export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), callback);
