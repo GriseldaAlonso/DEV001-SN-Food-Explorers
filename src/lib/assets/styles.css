@@ -251,6 +251,14 @@ li{
     font-size: small;
     text-align: end;
 }
+#errorMessageWall{
+    color: red;
+    font-weight: bold;
+    font-size: medium;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 6px;
+}
 /* DESDE AQUÍ INSTRUCCIONES PARA TABLET */
 @media only screen and (min-width: 600px) {
     body{
