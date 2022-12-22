@@ -82,6 +82,15 @@ describe('logOut', () => {
     signOut(auth);
     expect(signOut).toHaveBeenCalled();
   });
+  it('debería recibir una promesa resuleta', async () => {
+    await expect(Promise.resolve(logOut)).resolves.toBeDefined();
+  });
+  it('debería rechazar la promesa', () => {
+    signOut.mockRejectedValue(new Error('FirestoreErrorCode'));
+    logOut().catch((error) => {
+      expect(error.message).toBe('FirestoreErrorCode');
+    });
+  });
 });
 
 describe('savePost', () => {
@@ -96,6 +105,15 @@ describe('savePost', () => {
       userName: 'Mengana',
     });
     expect(addDoc).toHaveBeenCalled();
+  });
+  test('debería recibir una promesa resuleta', async () => {
+    await expect(Promise.resolve(savePost)).resolves.toBeDefined();
+  });
+  test('Deberia rechazar la promesa', () => {
+    addDoc.mockRejectedValue(new Error('FirestoreErrorCode'));
+    savePost().catch((error) => {
+      expect(error.message).toBe('FirestoreErrorCode');
+    });
   });
 });
 
