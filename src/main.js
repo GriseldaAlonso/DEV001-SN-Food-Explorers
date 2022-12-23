@@ -37,6 +37,7 @@ root.appendChild(routes[window.location.pathname]);
 onAuthStateChanged(auth, (user) => {
   if (user) {
     onNavigate('/wall');
+    console.log(user);
   } else {
     onNavigate('/');
   }
