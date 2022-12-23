@@ -7,7 +7,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import {
-  addDoc, collection, onSnapshot,
+  addDoc, collection, onSnapshot, orderBy, query,
 } from 'firebase/firestore';
 import { auth, provider, db } from './firebase.js';
 
@@ -65,24 +65,23 @@ export const logOut = async () => {
 };
 
 // función para guardar publicaciones
-const docRefSave = [];
-
-export const savePost = async (text, currentDate, userId, userNameValue) => {
+export const savePost = async (text, currentDate, userId, userNameValue, ts) => {
   try {
-    const docRef = await addDoc(collection(db, 'posts'), {
+    await addDoc(collection(db, 'posts'), {
       content: text,
       date: currentDate,
       uid: userId,
       userName: userNameValue,
+      timeStamp: ts,
     });
-    docRefSave.push(docRef.id);
-    return docRef;
   } catch (error) {
     const errorCode = error.code;
     return errorCode;
   }
 };
-console.log(docRefSave);
 
 // función para cargar los posts en tiempo real
-export const onGetPosts = (callback) => onSnapshot(collection(db, 'posts'), callback);
+export const onGetPosts = (querySnapshot) => {
+  const queryPosts = query(collection(db, 'posts'), orderBy('date', 'desc'));
+  onSnapshot(queryPosts, querySnapshot);
+};

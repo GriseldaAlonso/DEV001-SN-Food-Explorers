@@ -66,7 +66,7 @@ export const Wall = (onNavigate) => {
     const postContent = form.content.value;
     const currentDate = ts.toLocaleString();
     if (postContent !== '') {
-      await savePost(postContent, currentDate, userId, userNameValue);
+      await savePost(postContent, currentDate, userId, userNameValue, ts);
       form.reset();
     } else {
       errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
@@ -79,8 +79,14 @@ export const Wall = (onNavigate) => {
       const post = doc.data();
       html += `
       <li id=''>
+        <div class='top-section'>
+          <h3 class='userName-post'>${post.userName}</h3>
+          <nav class='nav-show'>
+            <button class='btn-delete'><img src="./lib/assets/images/bxs-trash.svg" alt="icono de eliminar"></button>
+            <button class='btn-edit'><img src="./lib/assets/images/bxs-edit-alt.svg" alt="icono de editar"></button>
+          </nav>
+        </div>
         <div id='${post.uid}'>
-          <h3>${post.userName}</h3>
           <p class='posts'>${post.content}</p>
           <p class='date'>${post.date}</p>
         </div>
@@ -93,6 +99,7 @@ export const Wall = (onNavigate) => {
   onGetPosts(showPosts);
 
   btnLogOut.addEventListener('click', async () => {
+    form.reset();
     const result = logOut();
     if (result === 'null') {
       onNavigate('/');
