@@ -57,13 +57,18 @@ export const Login = (onNavigate) => {
   btnBack.className = 'btns';
 
   //  boton para iniciar sesión con google
+  const divBtnGoogle = document.createElement('div');
   const btnGoogle = document.createElement('button');
-  btnGoogle.textContent = 'o inicia sesión con ';
+  btnGoogle.textContent = 'Inicia sesión con ';
   btnGoogle.id = 'btnGoogle';
   const imgGoogle = document.createElement('img');
   imgGoogle.src = './lib/assets/images/google.png';
   imgGoogle.alt = 'icono google';
   imgGoogle.id = 'imgGoogle';
+  divBtnGoogle.id = 'divBtnGoogle';
+  divBtnGoogle.innerHTML = `
+    <hr><p>O</p><hr>
+  `;
 
   container.append(form);
   divBtnsLogin.append(btnLogin, btnBack);
@@ -76,6 +81,7 @@ export const Login = (onNavigate) => {
     labelPassword,
     inputPassword,
     divBtnsLogin,
+    divBtnGoogle,
     btnGoogle,
   );
   btnGoogle.append(imgGoogle);

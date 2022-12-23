@@ -100,9 +100,23 @@ button{
     color: #fff;
     margin: 10px;
 }
+button:hover{
+    background-color: #9E7D3A;
+}
+#divBtnGoogle{
+    display: flex;
+    width: 87%;
+    justify-content: space-between;
+    align-items: center;
+}
+hr{
+    height: 3px;
+    width: 45%;
+    background-color: #58472E;
+}
 #btnGoogle{
-    background-color: rgba(217, 217, 217, 0.6);
-    border: rgba(217, 217, 217, 0.9);
+    background-color: #D9D9D9;
+    border: 2px solid #58472E;
     color: #58472E;
     width: 90%;
     display: flex;
@@ -259,6 +273,40 @@ li{
     text-align: center;
     border-radius: 6px;
 }
+.top-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-show{
+    display: flex;
+    justify-content: end;
+    width: auto;
+}
+.btn-delete{
+    display: flex;
+    background-color: #D9C8A9;
+    width: 30px;
+    height: 30px;
+    border: #D9C8A9;
+    margin: 2px;
+    align-items: center;
+    justify-content: center;
+}
+.btn-edit{
+    display: flex;
+    background-color: #D9C8A9;
+    width: 30px;
+    height: 30px;
+    border: #D9C8A9;
+    margin: 2px;
+    align-items: center;
+    justify-content: center;
+}
+.btn-delete:hover,
+.btn-edit:hover {
+    background-color: #ceae72;
+}
 /* DESDE AQUÍ INSTRUCCIONES PARA TABLET */
 @media only screen and (min-width: 600px) {
     body{
@@ -295,6 +343,12 @@ li{
         border-radius: 30px;
         width: 550px;
         height: 600px;
+    }
+    ul{
+        width: 90%;
+    }
+    li{
+        width: 85%;
     }
 }
 
@@ -336,7 +390,7 @@ li{
         width: 700px;
         height: 600px;
     }
-    #imgWall{
+    #imgLogoNav{
         margin-right: 118px;
     }
 
@@ -368,5 +422,8 @@ li{
         border-radius: 30px;
         width: 900px;
         height: 600px;
+    }
+    li{
+        width: 80%;
     }
 }
