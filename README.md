@@ -17,6 +17,7 @@ Para los usuarios con cuenta de Google es más fácil vincular su cuenta de este
 Para los usuarios que ya tienen una cuenta en Food Explorers, la interfaz integra una vista donde se les solicita el correo electrónico y contraseña para permitir el acceso. Para los usuarios es importante poder crear comentarios para compartir con la comunidad de Food Explorers.
 
 <a href="https://ibb.co/fqRbL8r"><img src="https://ibb.co/fqRbL8r" alt="Prototipo HU1" border="0"></a>
+https://ibb.co/fqRbL8r
 
 ## HU2
 
