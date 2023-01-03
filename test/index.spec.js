@@ -5,7 +5,9 @@
 import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut,
 } from 'firebase/auth';
-import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import {
+  addDoc, collection, deleteDoc, onSnapshot, doc, getDoc, updateDoc, query, orderBy,
+} from 'firebase/firestore';
 import {
   createWithEmail,
   signInEmail,
@@ -13,6 +15,9 @@ import {
   logOut,
   savePost,
   onGetPosts,
+  deletePost,
+  getPost,
+  updatePost,
 } from '../src/lib/JS/index';
 import { auth, db } from '../src/lib/JS/firebase.js';
 
@@ -117,12 +122,49 @@ describe('savePost', () => {
   });
 });
 
-describe('loadInRealTime', () => {
+describe('onGetPosts', () => {
   it('debería ser una función', () => {
     expect(typeof onGetPosts).toBe('function');
+  });
+  it('ejecuta query y order by', () => {
+    query(collection(db, 'texto'), orderBy('date', 'desc'));
+    expect(query).toHaveBeenCalled();
+    expect(orderBy).toHaveBeenCalled();
+    expect(collection).toHaveBeenCalled();
   });
   it('Ejecuta onSnapshot()', () => {
     onSnapshot(collection(db, 'texto'));
     expect(onSnapshot).toHaveBeenCalled();
+    expect(collection).toHaveBeenCalled();
+  });
+});
+
+describe('deletePost', () => {
+  it('debería ser una función', () => {
+    expect(typeof deletePost).toBe('function');
+  });
+  it('Ejecuta deleteDoc()', () => {
+    deleteDoc(doc(db, 'texto'));
+    expect(deleteDoc).toHaveBeenCalled();
+  });
+});
+
+describe('getpost', () => {
+  it('debería ser una función', () => {
+    expect(typeof getPost).toBe('function');
+  });
+  it('Ejecuta getDoc()', () => {
+    getDoc(doc(db, 'texto'));
+    expect(getDoc).toHaveBeenCalled();
+  });
+});
+
+describe('updatePost', () => {
+  it('debería ser una función', () => {
+    expect(typeof updatePost).toBe('function');
+  });
+  it('Ejecuta updateDoc()', () => {
+    updateDoc(doc(db, 'texto'));
+    expect(getDoc).toHaveBeenCalled();
   });
 });
