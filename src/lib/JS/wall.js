@@ -1,5 +1,6 @@
+/* eslint-disable no-shadow */
 import {
-  logOut, savePost, onGetPosts,
+  logOut, savePost, onGetPosts, deletePost, getPost, updatePost,
 } from './index.js';
 import { auth } from './firebase.js';
 
@@ -38,6 +39,8 @@ export const Wall = (onNavigate) => {
   const textArea = document.createElement('textarea');
   textArea.id = 'content';
   textArea.placeholder = 'Escribe aquí...';
+  let editStatus = false;
+  let id = '';
   const btnSave = document.createElement('button');
   btnSave.textContent = 'Publicar';
   btnSave.type = 'submit';
@@ -49,6 +52,7 @@ export const Wall = (onNavigate) => {
 
   // publicaciones del muro
   const postsList = document.createElement('ul');
+  postsList.id = 'postsList';
 
   nav.append(imgLogo, title, btnLogOut);
   header.append(nav);
@@ -65,8 +69,14 @@ export const Wall = (onNavigate) => {
     const userNameValue = user.displayName;
     const postContent = form.content.value;
     const currentDate = ts.toLocaleString();
-    if (postContent !== '') {
+    if (postContent !== '' && !editStatus) {
       await savePost(postContent, currentDate, userId, userNameValue, ts);
+      form.reset();
+    } else if (editStatus === true) {
+      await updatePost(id, {
+        content: form.content.value,
+      });
+      editStatus = false;
       form.reset();
     } else {
       errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
@@ -77,28 +87,65 @@ export const Wall = (onNavigate) => {
     let html = '';
     postsQuerySnapshot.forEach((doc) => {
       const post = doc.data();
-      html += `
+      const user = auth.currentUser;
+      if (post.uid === user.uid) {
+        html += `
       <li id=''>
         <div class='top-section'>
           <h3 class='userName-post'>${post.userName}</h3>
-          <nav class='nav-show'>
-            <button class='btn-delete'><img src="./lib/assets/images/bxs-trash.svg" alt="icono de eliminar"></button>
-            <button class='btn-edit'><img src="./lib/assets/images/bxs-edit-alt.svg" alt="icono de editar"></button>
-          </nav>
+          <div class='nav-show'>
+            <button class='btn-delete' data-id='${doc.id}'><img src="./lib/assets/images/bxs-trash.svg" alt="icono de eliminar"></button>
+            <button class='btn-edit' data-id='${doc.id}'><img src="./lib/assets/images/bxs-edit-alt.svg" alt="icono de editar"></button>
+          </div>
         </div>
-        <div id='${post.uid}'>
+        <div>
           <p class='posts'>${post.content}</p>
           <p class='date'>${post.date}</p>
         </div>
       </li>
       `;
+      } else {
+        html += `
+      <li id=''>
+        <div class='top-section'>
+          <h3 class='userName-post'>${post.userName}</h3>
+          <div class='nav-show'>
+          </div>
+        </div>
+        <div>
+          <p class='posts'>${post.content}</p>
+          <p class='date'>${post.date}</p>
+        </div>
+      </li>
+      `;
+      }
       postsList.innerHTML = html;
+      const btnsDelete = postsList.querySelectorAll('.btn-delete');
+      btnsDelete.forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          // eslint-disable-next-line no-restricted-globals, no-alert
+          const agree = confirm('¿Estas seguro de eliminar este comentario?');
+          if (agree === true) {
+            await deletePost(btn.dataset.id);
+          }
+        });
+      });
+      const btnsEdit = postsList.querySelectorAll('.btn-edit');
+      btnsEdit.forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const doc = await getPost(btn.dataset.id);
+          const post = doc.data();
+          form.content.value = post.content;
+          editStatus = true;
+          id = doc.id;
+        });
+      });
     });
   };
 
   onGetPosts(showPosts);
 
-  btnLogOut.addEventListener('click', async () => {
+  btnLogOut.addEventListener('click', () => {
     form.reset();
     const result = logOut();
     if (result === 'null') {

@@ -100,6 +100,7 @@ export const Login = (onNavigate) => {
     } else if (typeof result === 'object') {
       form.reset();
       onNavigate('/wall');
+      window.location.reload();
     }
   });
 

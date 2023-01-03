@@ -95,6 +95,7 @@ export const Register = (onNavigate) => {
     } else if (typeof result === 'object') {
       form.reset();
       onNavigate('/wall');
+      window.location.reload();
     }
   });
 

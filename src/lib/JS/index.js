@@ -7,7 +7,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import {
-  addDoc, collection, onSnapshot, orderBy, query,
+  addDoc, collection, onSnapshot, orderBy, query, deleteDoc, doc, updateDoc, getDoc,
 } from 'firebase/firestore';
 import { auth, provider, db } from './firebase.js';
 
@@ -85,3 +85,9 @@ export const onGetPosts = (querySnapshot) => {
   const queryPosts = query(collection(db, 'posts'), orderBy('date', 'desc'));
   onSnapshot(queryPosts, querySnapshot);
 };
+
+export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
+
+export const getPost = (id) => getDoc(doc(db, 'posts', id));
+
+export const updatePost = (id, newFields) => updateDoc(doc(db, 'posts', id), newFields);
