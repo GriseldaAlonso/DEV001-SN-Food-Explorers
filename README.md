@@ -22,3 +22,6 @@ https://ibb.co/fqRbL8r
 ## HU2
 
 Para los usuarios es importante poder editar y eliminar las publicaciones que realizaron, por lo que a la interfaz se le agregaron botones que cumplen con esta función. Para los usuarios es practico poder visualizar las publicaciones ordenadas, de las más recientes a las más antiguas.
+
+![image](https://user-images.githubusercontent.com/113854603/210446148-972028ff-43aa-46d5-843c-cc42a61451c5.png)
+
