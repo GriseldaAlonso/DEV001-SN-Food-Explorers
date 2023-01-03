@@ -16,7 +16,7 @@ Para los usuarios es importante poder crear una cuenta en esta red social utiliz
 Para los usuarios con cuenta de Google es más fácil vincular su cuenta de este servicio a sus redes sociales, por lo que la interfaz permite el usuario se registre mediante este proveedor de servicios. 
 Para los usuarios que ya tienen una cuenta en Food Explorers, la interfaz integra una vista donde se les solicita el correo electrónico y contraseña para permitir el acceso. Para los usuarios es importante poder crear comentarios para compartir con la comunidad de Food Explorers.
 
-<a href="https://ibb.co/fqRbL8r"><img src="https://ibb.co/fqRbL8r/HU1-phone.png" alt="Prototipo HU1" border="0"></a>
+<a href="https://ibb.co/fqRbL8r"><img src="https://ibb.co/fqRbL8r" alt="Prototipo HU1" border="0"></a>
 
 ## HU2
 
