@@ -34,7 +34,7 @@ export const Login = (onNavigate) => {
 
   // logo de la página
   const imgLogo = document.createElement('img');
-  imgLogo.src = './lib/assets/images/Logo_FoodExplorers.png';
+  imgLogo.src = 'https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/blob/main/src/lib/assets/images/Logo_FoodExplorers.png';
   imgLogo.alt = 'logo food explorers. Brújula con tenedor y cuchara como flechas';
   imgLogo.className = 'imgLogo';
 
@@ -62,7 +62,7 @@ export const Login = (onNavigate) => {
   btnGoogle.textContent = 'Inicia sesión con ';
   btnGoogle.id = 'btnGoogle';
   const imgGoogle = document.createElement('img');
-  imgGoogle.src = './lib/assets/images/google.png';
+  imgGoogle.src = 'https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/blob/main/src/lib/assets/images/google.png';
   imgGoogle.alt = 'icono google';
   imgGoogle.id = 'imgGoogle';
   divBtnGoogle.id = 'divBtnGoogle';
@@ -100,7 +100,7 @@ export const Login = (onNavigate) => {
     } else if (typeof result === 'object') {
       form.reset();
       onNavigate('/wall');
-      window.location.reload();
+      // window.location.reload();
     }
   });
 
