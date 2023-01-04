@@ -5,7 +5,7 @@ export const Welcome = (onNavigate) => {
 
   // logo de la página
   const imgLogo = document.createElement('img');
-  imgLogo.src = './lib/assets/images/Logo_FoodExplorers.png';
+  imgLogo.src = 'https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/main/src/lib/assets/images/Logo_FoodExplorers.png';
   imgLogo.alt = 'logo food explorers. Brújula con tenedor y cuchara como flechas';
   imgLogo.id = 'mainImgLogo';
 

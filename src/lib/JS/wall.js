@@ -15,7 +15,7 @@ export const Wall = (onNavigate) => {
 
   // logo de la página
   const imgLogo = document.createElement('img');
-  imgLogo.src = 'https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/blob/main/src/lib/assets/images/Logo_FoodExplorers.png';
+  imgLogo.src = 'https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/main/src/lib/assets/images/Logo_FoodExplorers.png';
   imgLogo.alt = 'logo food explorers. Brújula con tenedor y cuchara como flechas';
   imgLogo.id = 'imgLogoNav';
 
@@ -94,8 +94,8 @@ export const Wall = (onNavigate) => {
         <div class='top-section'>
           <h3 class='userName-post'>${post.userName}</h3>
           <div class='nav-show'>
-            <button class='btn-delete' data-id='${doc.id}'><img src="https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/blob/main/src/lib/assets/images/bxs-trash.svg" alt="icono de eliminar"></button>
-            <button class='btn-edit' data-id='${doc.id}'><img src="https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/blob/main/src/lib/assets/images/bxs-edit-alt.svg" alt="icono de editar"></button>
+            <button class='btn-delete' data-id='${doc.id}'><img src="https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/main/src/lib/assets/images/bxs-trash.svg" alt="icono de eliminar"></button>
+            <button class='btn-edit' data-id='${doc.id}'><img src="https://raw.githubusercontent.com/GriseldaAlonso/DEV001-SN-Food-Explorers/main/src/lib/assets/images/bxs-edit-alt.svg" alt="icono de editar"></button>
           </div>
         </div>
         <div>
