@@ -3,6 +3,7 @@ import {
   logOut, savePost, onGetPosts, deletePost, getPost, updatePost,
 } from './index.js';
 import { auth } from './firebase.js';
+import { createModal } from './modal.js';
 
 export const Wall = (onNavigate) => {
   // contenedor de la página de bienvenida
@@ -46,20 +47,23 @@ export const Wall = (onNavigate) => {
   btnSave.type = 'submit';
   btnSave.className = 'btns';
 
-  // mensaje de error
-  const errorMessageWall = document.createElement('p');
-  errorMessageWall.id = 'errorMessageWall';
-
   // publicaciones del muro
   const postsList = document.createElement('ul');
   postsList.id = 'postsList';
 
+  // modal
+  const modalContainer = document.createElement('div');
+  modalContainer.id = 'modalContainer';
+  const modal = document.createElement('dialog');
+  modal.className = 'modal';
+  modal.id = 'modal';
+
   nav.append(imgLogo, title, btnLogOut);
   header.append(nav);
-  form.append(errorMessageWall, textArea, btnSave);
+  form.append(textArea, btnSave);
 
   main.append(form, postsList);
-  container.append(header, main);
+  container.append(header, main, modalContainer);
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -79,7 +83,12 @@ export const Wall = (onNavigate) => {
       editStatus = false;
       form.reset();
     } else {
-      errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
+      createModal();
+      modal.showModal();
+      const close = document.getElementById('closeModalButton');
+      close.addEventListener('click', () => {
+        modal.close();
+      });
     }
   });
 
