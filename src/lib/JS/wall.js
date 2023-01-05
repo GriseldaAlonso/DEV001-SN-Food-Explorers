@@ -3,7 +3,6 @@ import {
   logOut, savePost, onGetPosts, deletePost, getPost, updatePost,
 } from './index.js';
 import { auth } from './firebase.js';
-import { createModal } from './modal.js';
 
 export const Wall = (onNavigate) => {
   // contenedor de la página de bienvenida
@@ -51,19 +50,16 @@ export const Wall = (onNavigate) => {
   const postsList = document.createElement('ul');
   postsList.id = 'postsList';
 
-  // modal
-  const modalContainer = document.createElement('div');
-  modalContainer.id = 'modalContainer';
-  const modal = document.createElement('dialog');
-  modal.className = 'modal';
-  modal.id = 'modal';
+  // mensaje de error
+  const errorMessageWall = document.createElement('p');
+  errorMessageWall.id = 'errorMessageWall';
 
   nav.append(imgLogo, title, btnLogOut);
   header.append(nav);
-  form.append(textArea, btnSave);
+  form.append(errorMessageWall, textArea, btnSave);
 
   main.append(form, postsList);
-  container.append(header, main, modalContainer);
+  container.append(header, main);
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -74,21 +70,18 @@ export const Wall = (onNavigate) => {
     const postContent = form.content.value;
     const currentDate = ts.toLocaleString();
     if (postContent !== '' && !editStatus) {
+      errorMessageWall.innerHTML = '';
       await savePost(postContent, currentDate, userId, userNameValue, ts);
       form.reset();
     } else if (editStatus === true) {
+      errorMessageWall.innerHTML = '';
       await updatePost(id, {
         content: form.content.value,
       });
       editStatus = false;
       form.reset();
     } else {
-      createModal();
-      modal.showModal();
-      const close = document.getElementById('closeModalButton');
-      close.addEventListener('click', () => {
-        modal.close();
-      });
+      errorMessageWall.innerHTML = 'Error: Su publicación está vacía.';
     }
   });
 
@@ -159,7 +152,6 @@ export const Wall = (onNavigate) => {
     const result = logOut();
     if (result === 'null') {
       onNavigate('/');
-      postsList.remove();
     }
   });
 
